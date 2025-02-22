@@ -156,6 +156,7 @@ export default defineFlatConfig([
       '@typescript-eslint/ban-ts-comment': 'off',
       // 关闭对于显式声明 any 类型的检查
       '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
       'no-unused-vars': 'off'
     }
   }

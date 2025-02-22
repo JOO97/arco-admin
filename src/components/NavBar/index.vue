@@ -3,6 +3,21 @@
     <LogoBar class="left-side" />
     <div class="center-side">
       <Menu v-if="topMenu" />
+      <SearchBar
+        ref="searchBar"
+        v-model="searchBarVal"
+        v-model:textarea="textareaVal"
+        v-model:radioVal="radioVal"
+        :value="1"
+      >
+        <template v-slot:a>a2</template>
+        <template #b>b2</template>
+        <!-- <template #default>aaaaa2</template> -->
+        <template #prepend="slotProps">prepend: {{ slotProps.text }}</template>
+        <button>sssssss</button>
+      </SearchBar>
+
+      <!-- {{ searchBarVal }}-{{ textareaVal }}-{{ radioVal }} -->
     </div>
     <ul class="right-side">
       <li>
@@ -133,13 +148,29 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref, useTemplateRef } from 'vue';
 import { Message } from '@arco-design/web-vue';
 import { useFullscreen } from '@vueuse/core';
 import { useAppStore, useUserStore } from '@/store';
 import useLocale from '@/hooks/useLocale';
 import useUser from '@/hooks/useUser';
 import useThemes from '@/hooks/useThemes';
+
+import SearchBar from '../SearchBar/index.vue';
+
+const searchBarVal = ref('');
+const textareaVal = ref('');
+const radioVal = ref(false);
+
+// 自动推导组件类型
+// const searchBarRef = useTemplateRef('searchBar');
+// 手动定义类型
+type TSearchBar = InstanceType<typeof SearchBar>;
+const searchBarRef = useTemplateRef<TSearchBar>('searchBar');
+
+onMounted(() => {
+  console.log('===', searchBarRef.value.state);
+});
 
 const appStore = useAppStore();
 const userStore = useUserStore();

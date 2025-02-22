@@ -1,7 +1,4 @@
 {
-  "cSpell.words": [
-    "arcoblue",
-    "brotli",
-    "nprogress"
-  ]
+  "cSpell.words": ["arcoblue", "brotli", "nprogress"],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

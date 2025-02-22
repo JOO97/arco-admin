@@ -1,12 +1,14 @@
 <template>
-  <div class="container">
+  <!-- NOTE: 绑定值为null会移除所绑定的属性 -->
+  <div class="container" :[attributeName]="null">
     <div class="left-side">
       <div class="panel">
         <Banner />
         <DataPanel />
         <ContentChart />
       </div>
-      <a-grid :cols="24" :col-gap="16" :row-gap="16" style="margin-top: 16px">
+      <!-- 绑定名称和变量同名可以简写(3.4+) -->
+      <a-grid :cols :col-gap="16" :row-gap="16" style="margin-top: 16px">
         <a-grid-item
           :span="{ xs: 24, sm: 24, md: 24, lg: 12, xl: 12, xxl: 12 }"
         >
@@ -42,6 +44,15 @@
 </template>
 
 <script lang="ts" setup>
+import { getCurrentInstance, ref } from 'vue';
+/* NOTE: <script setup> 模式下没有beforeRouteEnter钩子*/
+import {
+  onBeforeRouteLeave,
+  onBeforeRouteUpdate,
+  NavigationFailureType,
+  isNavigationFailure
+} from 'vue-router';
+
 import Banner from './components/banner.vue';
 import DataPanel from './components/data-panel.vue';
 import ContentChart from './components/content-chart.vue';
@@ -52,12 +63,27 @@ import QuickOperation from './components/quick-operation.vue';
 import Announcement from './components/announcement.vue';
 import Carousel from './components/carousel.vue';
 import Docs from './components/docs.vue';
+
+defineOptions({
+  name: 'Dashboard'
+});
+
+const cols = ref(24);
+const attributeName = ref('title');
+
+/* 获取app instance */
+const app = getCurrentInstance();
+console.log('app', app, app.appContext.config.globalProperties.__app);
+
+onBeforeRouteLeave((from, to, next) => {});
 </script>
 
+//
 <script lang="ts">
-export default {
-  name: 'Dashboard' // If you want the include property of keep-alive to take effect, you must name the component
-};
+// export default {
+//   name: 'Dashboard', // If you want the include property of keep-alive to take effect, you must name the component
+//   beforeRouteEnter(from, to) {}
+// };
 </script>
 
 <style lang="less" scoped>

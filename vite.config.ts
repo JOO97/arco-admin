@@ -45,7 +45,12 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       // 端口号（这里使用了变量 VITE_PORT）
       port: Number(VITE_PORT),
       // 本地跨域代理-> 代理到服务器的接口地址
-      proxy: {},
+      proxy: {
+        '/api': {
+          target: 'http://localhost:3000',
+          changeOrigin: true
+        }
+      },
       // 预热文件以降低启动期间的初始页面加载时长
       warmup: {
         // 预热的客户端文件：首页、views、 components
@@ -64,10 +69,14 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
           assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
           compact: true,
           // 自定义 chunk
-          manualChunks: {
-            arco: ['@arco-design/web-vue'],
-            chart: ['@visactor/vchart'],
-            vue: ['vue', 'vue-router', 'pinia', '@vueuse/core']
+          // manualChunks: {
+          //   arco: ['@arco-design/web-vue'],
+          //   chart: ['@visactor/vchart'],
+          //   vue: ['vue', 'vue-router', 'pinia', '@vueuse/core']
+          // }
+          manualChunks(id) {
+            if (id.includes('node_modules')) return 'vendor';
+            return null;
           }
         }
       },
