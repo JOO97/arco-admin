@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /* 检测浏览器是否支持该特性 */
+      let passiveIfSupported = false;
+
+      try {
+        window.addEventListener(
+          'test',
+          () => {
+            console.log('test');
+          },
+          Object.defineProperty({}, 'passive', {
+            get() {
+              console.log('-----');
+              passiveIfSupported = { passive: true };
+            }
+          })
+        );
+      } catch (err) {
+        console.log('error');
+      }
+
+      window.addEventListener(
+        'scroll',
+        event => {
+          /* do something */
+          // 不能使用 event.preventDefault();
+        },
+        passiveIfSupported
+      );
+      console.log('passiveIfSupported', passiveIfSupported);
+    </script>
+  </body>
+</html>

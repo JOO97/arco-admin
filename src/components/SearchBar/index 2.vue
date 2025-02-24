@@ -31,13 +31,10 @@
     <div v-if="slots.prepend" class="input-prepend">
       <slot name="prepend" :text="slotText" />
     </div>
-    <SearchIcon class="icon" />
-    <SearchButton ref="searchButton">Button Name</SearchButton>
   </div>
 </template>
 
 <script setup lang="ts">
-import { PROVIDE_THEME_KEY } from '@/constants/provideKeys';
 import {
   ref,
   useAttrs,
@@ -49,8 +46,6 @@ import {
   watchEffect,
   Ref
 } from 'vue';
-import SearchButton from './SearchButton.vue';
-import SearchIcon from './SearchIcon.vue';
 
 const theme = ref({
   bg: 'red',
@@ -95,14 +90,8 @@ const emit = defineEmits<{
 }>();
 const slots = useSlots();
 
-// 模板标注类型
-// 1
 const inputRef = useTemplateRef<HTMLInputElement>('input');
 const textareaRef = ref<HTMLInputElement | null>(null);
-// 2 InstanceType / ComponentPublicInstance（组件的具体类型无法获得或不关心组件的具体类型）
-type SearchButtonType = InstanceType<typeof SearchButton>;
-const searchButtonRef = ref<SearchButtonType>('searchButton');
-const compRef = useTemplateRef<SearchButtonType | BarType>('comp');
 
 watchEffect(() => {
   console.log('inputRef', inputRef?.value?.focus());
@@ -119,10 +108,7 @@ const radioVal = defineModel<boolean, 'trim | uppercase'>('radioVal', {
   default: false
 });
 
-// 当使用字符串注入 key 时，注入值的类型是 unknown
-const message = inject<string>('message', '默认值）');
-// 或者统一引入 用InjectionKey<string>
-const injectVal = inject(PROVIDE_THEME_KEY);
+console.log('inject', inject('message'));
 
 // const [radioVal, modelModifiers] = defineModel({
 //   set(value) {

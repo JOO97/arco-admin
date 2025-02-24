@@ -1,4 +1,4 @@
-import * as vue from 'vue';
+import { createApp, provide, type InjectionKey } from 'vue';
 import globalComponents from '@/components';
 import router from './router';
 import store from './store';
@@ -12,12 +12,11 @@ import '@arco-design/web-vue/es/message/style/index.less';
 import '@arco-design/web-vue/es/notification/style/index.less';
 import '@arco-design/web-vue/es/modal/style/index.less';
 
-console.log('vue', vue);
-
 import { initVChartArcoTheme } from '@visactor/vchart-arco-theme';
+import { PROVIDE_THEME_KEY } from '@/constants/provideKeys';
 initVChartArcoTheme();
 
-const app = vue.createApp(App);
+const app = createApp(App);
 
 /* app handler */
 // 强制在生产模式下抛出错误
@@ -53,7 +52,11 @@ app.config.performance;
 app.config.globalProperties;
 console.log('globalProperties', app.config.globalProperties.__app);
 
+/* Provide */
 app.provide('message', 'hello');
+// 给provide 和 注入值定义类型
+// const provideKey: InjectionKey<number> = Symbol();
+provide(PROVIDE_THEME_KEY, '123');
 
 app.use(router);
 app.use(store);

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script type="importmap">
+      {
+        "imports": {
+          "vue": "https://cdn.jsdelivr.net/npm/vue@3.5.13/+esm",
+          "js/lodash": "./lodash.js"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <!-- 必须是module -->
+    <script type="module">
+      import { ref } from 'vue';
+      import _ from 'js/lodash';
+      console.log(ref);
+      console.log('=====', _.cloneDeep);
+      const html = /*html*/ `<div>assss</div>`;
+    </script>
+  </body>
+</html>
